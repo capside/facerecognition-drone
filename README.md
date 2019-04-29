@@ -10,7 +10,7 @@ The main module (FaceAPIServerModule) integrates the fantastic [face-api.js](htt
 
 The function checks if the matched names are considered dangerous in a [CosmoDB](https://azure.microsoft.com/services/cosmos-db/) database and in that case uses the hub to send a [Direct Method Invocation](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-direct-methods) to the IoT Edge Module.
 
-If the IoT Edge Module method is invoked, it executes a HTTP request to change the state of a [Sonoff relay](https://www.itead.cc/sonoff-wifi-wireless-switch.html) (burnt with [Espurna](https://github.com/xoseperez/espurna) firmwared) to switch on a siren.
+If the IoT Edge Module method is invoked, it executes a HTTP request to change the state of a [Sonoff relay](https://www.itead.cc/sonoff-wifi-wireless-switch.html) (burnt with [Espurna](https://github.com/xoseperez/espurna) firmware) to switch on a siren.
 
 ## Additional resources
 
