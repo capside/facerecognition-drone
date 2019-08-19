@@ -4,11 +4,9 @@ This little workshop will show you how to use the [Azure IoT Edge](https://azure
 
 There are two versions of the workshop: one [based on virtual machines](https://github.com/capside/facerecognition-drone/tree/workshop/workshop) and another one using [Raspberries](https://github.com/capside/facerecognition-drone/tree/raspberry/workshop).
 
-The module is basically a web server with a web application implementing face recognition technology (with javascript!).  You can of course clone the repo and [edit the proper code line](https://github.com/capside/facerecognition-drone/blob/f20be193900c3fa8395f275f93562cc64d8a0dd4/modules/FaceAPIServerModule/views/index.html#L402) to set your own photos :). 
+The module is basically a web server with a web application implementing face recognition technology (with javascript!).  
 
-After that just build the module using [the Dockerfile](https://github.com/capside/facerecognition-drone/blob/workshop/modules/FaceAPIServerModule/Dockerfile.amd64) and push it to your own [Docker Hub](https://hub.docker.com) repo. 
-
-The last step is to modify the [deployment manifest](https://github.com/capside/facerecognition-drone/blob/26e455ea28d7ff758acf82e7634c46b62220300f/workshop/deployment.json#L40) with the name of your own image.
+You can of course clone the repo and [edit the proper code line](https://github.com/capside/facerecognition-drone/blob/f20be193900c3fa8395f275f93562cc64d8a0dd4/modules/FaceAPIServerModule/views/index.html#L402) to set your own photos :).  After that just build the module using [the Dockerfile](https://github.com/capside/facerecognition-drone/blob/workshop/modules/FaceAPIServerModule/Dockerfile.amd64) and push it to your own [Docker Hub](https://hub.docker.com) repo. The last step should be to modify the [deployment manifest](https://github.com/capside/facerecognition-drone/blob/26e455ea28d7ff758acf82e7634c46b62220300f/workshop/deployment.json#L40) with the name of your own image.
 
 Even without that customization I think the tutorial is a nice and quick way to understand how Azure Iot Edge works. Feel free to write me at `email` at `javier-moreno.com` if you need help to set it up. And, of course, pull request are welcome :)
 
