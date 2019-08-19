@@ -1,10 +1,10 @@
-# IoT facial recognition workshop
+# IoT facial recognition workshop (Raspberry Pi version)
 
 ## Environment preparation
 
-* Login into the portal
+* Login into the [Azure portal](https://portal.azure.com)
 
-* Open the cloudshell
+* Open the cloudshell by clicking on the top bar `>_` icon and accept the creation of the *Storage Account* if needed
 
 * Choose some nice names for your deployment
 
@@ -22,7 +22,7 @@ DEVICE_NAME=<the name of your device>
 az group create --name $RESOURCE_GROUP_NAME --location westeurope
 ```
 
-* Create the iot hub
+* Create the iot hub (remove `--sku S1` parameter if you want to use the free tier)
 
 ```bash
 az extension add --name azure-cli-iot-ext
@@ -44,41 +44,25 @@ echo $DEVICE_CONN_STRING
 
 * **Take note of the connection string for later use**. No, REALLY, TAKE NOTE.
 
-* Create the vm that we are going to use as device
+* Run next commands **in your raspi** to install the *edge agent*
 
 ```bash
-wget https://raw.githubusercontent.com/ciberado/facerecognition-drone/workshop/workshop/initvm.sh
-az vm create \
-  --name vm$DEVICE_NAME \
-  --resource-group $RESOURCE_GROUP_NAME \
-  --admin-password InternetOfThings1 \
-  --admin-username iot \
-  --custom-data initvm.sh \
-  --image Canonical:UbuntuServer:16.04-LTS:latest \
-  --location westeurope \
-  --nsg-rule ssh \
-  --public-ip-address-allocation dynamic \
-  --vnet-name vnet$DEVICE_NAME
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+curl -sSL https://get.docker.com | sh
+sudo apt install python-pip -y
+sudo pip install azure-iot-edge-runtime-ctl
+sudo apt-get remove unscd -y
+sudo usermod -aG docker pi
 ```
-
-* The last step is going to take some time so, why don't you take a look at the [cloud-init script](initvm.sh) in the meanwhile? **You can use the same script to provision the IoT Edge Runtime in your Raspberry PI  :)**
 
 ## IotEdge runtime configuration
-
-* Once the command `az vm create` has returned, wait and additional minute or so in order to provide enough time to finish the tool provisioning. Go and get some coffee. Read the news. After that, connect to your new device vm with 
-
-```
-IP=$(az vm show -d -g $RESOURCE_GROUP_NAME -n vm$DEVICE_NAME --query publicIps -o tsv)
-echo $IP
-ssh iot@$IP
-```
 
 * Check if the tools are ready (if you need `sudo` to run `docker ps`, execute `sudo usermod -aG docker $(whoami)` and then logout and login again)
 
 ```
-cat /var/log/cloud-init.log
 docker ps
-iotedgectl --version
+sudo iotedgectl --version
 ```
 
 * Init the device (replace the <...> with the actual device connection string, because you took note of it, isn't? ;-))
@@ -94,51 +78,41 @@ sudo iotedgectl setup --connection-string $DEVICE_CONN_STRING --nopass
 sudo iotedgectl start
 docker ps
 docker logs edgeAgent
-exit
 ```
 
 ## Deploying modules to the device
 
-* Doublecheck you are again using the terminal of your workstation (not the device vm). 
+* Doublecheck you are again using your *cloudshell* session (not the raspberry) 
 
-* Check it again.
+* Check it again
 
 * Now deploy the modules on the device (actually, tell the *iothub* to ask the device to update its status) and open the port 3000 to access the webapp created by the deployment
 
 ```
-wget https://raw.githubusercontent.com/capside/facerecognition-drone/workshop/workshop/deployment.json
+wget https://raw.githubusercontent.com/capside/facerecognition-drone/raspberry/workshop/deployment.json
 az iot edge set-modules --hub-name $IOT_HUB_NAME --device-id $DEVICE_NAME --content deployment.json
-
-az vm open-port --resource-group $RESOURCE_GROUP_NAME --name vm$DEVICE_NAME --port 3000  
 ```
 
 ## Detecting the ~bad~ bald guys
-
-* Remind yourself what is the IP address of your device
-
-```bash
-echo $IP
-```
 
 * Monitor IotHub messages:
 
 ```bash
 IOTHUB_CONN_STRING=$(az iot hub show-connection-string --name $IOT_HUB_NAME --query connectionString --output tsv)
-
 echo $IOTHUB_CONN_STRING
-
 az iot hub monitor-events --login $IOTHUB_CONN_STRING -y
 ```
 
 * This is the moment: open the web application deployed on the device and look for the bald guy in the room
 
 ```bash
+IP=<IP OF YOUR RASPI>
 open http://$IP:3000
 ```
 
 ## Module configuration update with twins
 
-* What about checking the *desired state* of your device? 
+* What about checking the *desired state* of your device? Run this command in your *cloudshell* session: 
 
 ```bash
 az iot hub module-twin show --device-id $DEVICE_NAME --module-id FaceAPIServerModule --login "$IOTHUB_CONN_STRING" --resource-group $RESOURCE_GROUP_NAME
