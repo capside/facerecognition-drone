@@ -1,8 +1,6 @@
 # IoT facial recognition workshop (Raspberry Pi version)
 
-This little workshop will show you how to use the [Azure IoT Edge](https://azure.microsoft.com/services/iot-edge/) technology, ensuring a safe connectin between your devices and the cloud.
-
-Basically, you will create an [IoT Hub](https://azure.microsoft.com/services/iot-hub) to ingest iot telemetry and then you will deploy the [IoT Edge Agent](https://github.com/Azure/iotedge) on a device to run an [IoT Edge module](https://docs.microsoft.com/azure/marketplace/iot-edge-module).
+This little workshop will show you how to use the [Azure IoT Edge](https://azure.microsoft.com/services/iot-edge/) technology, ensuring a safe connection between your devices and the cloud. Basically, you will create an [IoT Hub](https://azure.microsoft.com/services/iot-hub) to ingest iot telemetry and then you will deploy the [IoT Edge Agent](https://github.com/Azure/iotedge) on a device to run an [IoT Edge module](https://docs.microsoft.com/azure/marketplace/iot-edge-module).
 
 There are two versions of the workshop: one [based on vm](https://github.com/capside/facerecognition-drone/tree/workshop/workshop) and another one using [Raspberries](https://github.com/capside/facerecognition-drone/tree/raspberry/workshop).
 
