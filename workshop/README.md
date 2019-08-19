@@ -143,8 +143,15 @@ az iot hub module-twin show --device-id $DEVICE_NAME --module-id FaceAPIServerMo
 
 ## Cleanup
 
-* Just delete the resource group
+* Using your *cloudshell* session, delete the resource group
 
 ```bash
 az group delete --name $RESOURCE_GROUP_NAME
+```
+
+* Stop and uninstall (if needed) the Iot Edge Agent on your Raspberry:
+
+```bash
+sudo iotedgectl stop
+sudo iotedgectl uninstall
 ```
