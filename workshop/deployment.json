@@ -37,7 +37,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ciberado/faceapiservermodule:0.0.2-amd64",
+              "image": "ciberado/faceapiservermodule:0.0.2-arm",
               "createOptions": "{\"ExposedPorts\":{\"3000/tcp\":{}},\"HostConfig\":{\"PortBindings\":{\"3000/tcp\":[{\"HostPort\":\"3000\"}]}}}"
             }
           }
