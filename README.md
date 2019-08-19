@@ -24,4 +24,4 @@ The first version of this project was used in a demo during the [Global Azure Bo
 
 ## Further assistance
 
-Detailed instructions to run this project will be provided at some point in the future but in the meanwhile feel free to contact Javi on [Twitter](http://twitter.com/ciberado) or [Linked-in](http://linkedin.com/in/javier-more/) if you want to run this code on your own.
+You will find two branches with instruction about how to run a little IoT workshop using this project. Just check the [vm based version](https://github.com/capside/facerecognition-drone/tree/workshop/workshop) or the [raspberry pi flavour](https://github.com/capside/facerecognition-drone/tree/raspberry/workshop).
