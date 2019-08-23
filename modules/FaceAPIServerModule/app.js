@@ -1,6 +1,7 @@
 'use strict';
 
-const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 const Client = require('azure-iot-device').ModuleClient;
 const Message = require('azure-iot-device').Message;
@@ -122,8 +123,18 @@ function startExpressServer() {
     if (iotEdgeHubClient) pipeMessage(iotEdgeHubClient, 'express', req.body);
     return res.status(200).send('Received match.');
   });
-  
-  app.listen(3000, () => console.log('Listening on port 3000!'));  
+
+  const options = {
+		key: fs.readFileSync( './server.key' ),
+		cert: fs.readFileSync( './server.cert' ),
+		requestCert: false,
+		rejectUnauthorized: false
+  };
+  const server = https.createServer(options, app);
+  server.listen(3000,  function () {
+    console.log( 'Express server listening on port ' + server.address().port );
+  });
 }
 
+//startExpressServer();
 startIotEdgeHubClient();

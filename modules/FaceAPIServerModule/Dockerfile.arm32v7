@@ -2,11 +2,9 @@ FROM arm32v7/node:8-slim
 
 WORKDIR /app/
 
-COPY package*.json ./
+ADD . .
 
-RUN npm install --production
-
-COPY app.js ./
+RUN npm install --production 
 
 USER node
 
