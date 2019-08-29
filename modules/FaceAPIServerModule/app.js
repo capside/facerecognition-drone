@@ -1,5 +1,6 @@
 'use strict';
 
+const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
